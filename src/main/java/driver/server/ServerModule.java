@@ -4,15 +4,13 @@ import com.google.inject.*;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.*;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
-import org.jboss.netty.handler.codec.http.HttpChunkAggregator;
-import org.jboss.netty.handler.codec.http.HttpServerCodec;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.concurrent.Executors;
 
 /**
- *
+ * Configure some pretty standard netty options
  */
 public class ServerModule extends AbstractModule
 {
@@ -27,22 +25,6 @@ public class ServerModule extends AbstractModule
     protected void configure()
     {
         bind(SocketAddress.class).toInstance(new InetSocketAddress(port));
-
-        // bind to our handler
-        bind(ChannelHandler.class).to(Handler.class);
-    }
-
-    @Provides @Inject
-    ChannelPipeline providePipeline(ChannelHandler handler)
-    {
-        // construct empty pipeline
-        final ChannelPipeline pipeline = Channels.pipeline();
-
-        pipeline.addLast("http-codec", new HttpServerCodec());
-        pipeline.addLast("chunk-aggregator", new HttpChunkAggregator(1024 * 1024 * 2));
-        pipeline.addLast("resource", handler);
-
-        return pipeline;
     }
 
     @Provides @Inject @Singleton

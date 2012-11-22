@@ -1,4 +1,4 @@
-package driver.server;
+package driver.handler;
 
 import org.jboss.netty.channel.SimpleChannelHandler;
 

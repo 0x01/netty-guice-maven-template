@@ -2,7 +2,9 @@ package driver;
 
 import com.beust.jcommander.JCommander;
 import com.google.inject.*;
+import driver.handler.HandlerModule;
 import driver.server.Server;
+import driver.server.ServerModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +21,8 @@ public class Main
         final List<Module> modules = new ArrayList<Module>();
 
         // depending on properties / CLI, load proper modules
-        modules.add(opt.getNettyModule());
+        modules.add(new ServerModule(opt.port));
+        modules.add(new HandlerModule());
 
         // the injector
         final Injector injector = Guice.createInjector(modules);

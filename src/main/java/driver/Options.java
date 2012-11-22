@@ -1,15 +1,13 @@
 package driver;
 
 import com.beust.jcommander.Parameter;
-import com.google.inject.AbstractModule;
-import driver.server.ServerModule;
 
 import java.util.Properties;
 
 public class Options
 {
     @Parameter(names = {"-p", "--port"}, description = "Listening port")
-    private int port;
+    int port;
 
     @Parameter(names = "--help", help = true)
     private boolean help;
@@ -28,10 +26,5 @@ public class Options
     {
         // try to set the defaults for local
         port = Integer.parseInt(properties.getProperty("server.port", "9821"));
-    }
-
-    public AbstractModule getNettyModule()
-    {
-        return new ServerModule(port);
     }
 }
